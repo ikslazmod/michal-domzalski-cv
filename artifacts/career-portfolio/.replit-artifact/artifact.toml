@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Career Portfolio"
+description = "An ATS-friendly job-seeking portfolio that presents a candidate's strengths, role-aligned projects, evidence-backed skills, downloadable resume files, and an availability scheduler link for interviews and coffee chats."
+version = "1.0.0"
+id = "artifacts/career-portfolio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20775
+
+[services.development]
+run = "pnpm --filter @workspace/career-portfolio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/career-portfolio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/career-portfolio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20775"
+BASE_PATH = "/"
